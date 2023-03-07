@@ -1,0 +1,56 @@
+@startuml
+class Contrato {
+    id: int
+    fornecedor: Fornecedor
+    compras: List<Compra>
+    assinatura: Date
+    validade: Date
+    moeda: String
+    valor: double
+    transporte: Transporte
+}
+
+class Compra {
+    contrato: Contrato
+    mercadoria: Mercadoria
+    preco: double
+    quantidade: int
+}
+
+class Mercadoria {
+    cod: int
+    unidadeMedida: String
+    compras: List<Compra>
+    fornecedores: List<Fornecedor>
+}
+
+class Transporte {
+    cod: int
+    dataPrevistaPartida: Date
+    dataPrevistaChegada: Date
+    navio: String
+}
+
+class Fornecedor {
+    cod: int
+    nome: String
+    endereco: String
+    telefone: String
+    fax: String
+    mercadorias: List<Mercadoria>
+}
+
+Fornecedor "1" - "*" Contrato : assina
+Contrato "*" -- "1..*" Mercadoria
+(Contrato, Mercadoria) . Compra
+Transporte "1" -- "*" Contrato : transporta
+Fornecedor "*" -- "*" Mercadoria : fornece
+
+' Esquema da relação:
+' Fornecedor(__cod__, nome, morada, email, tel)
+' Contrato(__id__, data, prazo, moeda, valor, _idFornecedor_, _codTransporte_)
+' Compra(__idContrato__, __codMercadoria__, quantitade, preco)
+' Mercadoria(__cod__, nome, unidadeMedida)
+' Transporte(__cod__, navio, dataPartida, dataChegada)
+' Fornece(__codFornecedor__, __codMercadoria__)
+@enduml

@@ -1,0 +1,61 @@
+@startuml
+class Condutor {
+    ' PK
+    dataNascimento: Date
+    cartaConducao: int
+    validadeCartaConducao: Date
+    carros: List<Carro>
+}
+
+class Carro {
+    ' PK
+    matricula: int
+    marca: String
+    modelo: String
+    numLugares: int
+    apoliceSeguro: int
+    validadeSeguro: Date
+}
+
+class Viagem {
+    ' id: int
+    dataIda: Date
+    dataVolta: Date
+    carro: Carro
+    passageiros: List<Passageiro>
+}
+
+class Passageiro {
+}
+
+abstract class Utilizador {
+    ' PK
+    numContribuinte: int
+    nome: String
+    cartaoCidadao: int
+    telemovel: int
+    email: String
+    morada: String
+    comprovativoInscricao: String
+}
+
+class Pagamento {
+    mbWayId: int
+    valor: double
+    estado: EstadoPagamento
+}
+
+enum EstadoPagamento {
+    POR_PAGAR
+    PAGO
+    CANCELADO
+}
+
+Utilizador *.. Condutor
+Utilizador *.. Passageiro
+Condutor "1" -- "1..*" Carro
+Carro "1" - "*" Viagem
+Passageiro "*" -- "*" Viagem
+(Passageiro, Viagem) - Pagamento
+Pagamento *- EstadoPagamento
+@enduml
