@@ -1,0 +1,73 @@
+@startuml
+' A cooperativa agrícula Frutivende foi criada com o objetivo de receber a fruta dos seus produtores associados, nomeadamente maçãs, pêras e citrinos, e comercializar essa fruta no mercado interno e externo.
+' São guardadas na cooperativa os dados pessoais de cada produtor associado, a sua data de admissão, assim como as características das suas propriedades. Os dados das propriedades incluem a designação da mesma, local, freguesia e área total em metros quadrados.
+' Para cada variedade de fruta, existe um período estipulado para os produtores entregarem a sua produção na cooperativa. Os produtores associados são obrigados a entregar toda a sua produção na cooperativa, podendo ser expulsos da mesma se tal não acontecer. A fruta entregue é pesada e classificada de acordo com a sua dimensão em grande, média e pequena. Após a classificação é guardada em câmaras frigoríficas para posterior comercialização. São definidos preços diferentes para cada variedade e calibre (dimensão).
+
+' Maça, Pêra
+class TipoFruta {
+    id: int
+    nome: String
+}
+
+' Fuji, Golden
+class VariedadeFruta {
+    id: int
+    tipo: TipoFruta
+    calibre: CalibreFruta
+    periodoEntrega: Double
+    frutas: List<Fruta>
+}
+
+class CalibreFruta {
+    id: int
+    peso: Double
+    precoExtra: Double
+    frutas: List<Fruta>
+}
+
+' Uma fruta em si
+class Fruta {
+    id: int
+    variedade: VariedadeFruta
+    calibre: CalibreFruta
+    propriedade: Propriedade
+    camaraFrigorifica?: CamaraFrigorifica
+    dataEntrega: Date
+}
+
+class Produtor {
+    id: int
+    nome: String
+    dataAdmissao: Date
+}
+
+class Propriedade {
+    id: int
+    nome: String
+    local: String
+    freguesia: String
+    area: Double
+}
+
+class CamaraFrigorifica {
+    id: int
+    frutas: List<Fruta>
+}
+
+TipoFruta "1" - "1..*" VariedadeFruta
+VariedadeFruta "1" -- "1..*" Fruta
+
+' VariedadeFruta "1" -- "1..*" CalibreFruta
+CalibreFruta "1" - "1..*" Fruta
+Fruta "1..*" - "1" Propriedade
+Propriedade "1..*" - "1" Produtor
+
+Fruta "1..*" -- "1" CamaraFrigorifica
+
+@enduml
+
+' requisitos
+' diagramas de casos de uso
+' especificação dos cenários
+' [vale mais] diagrama de classes
+' perguntas sobre o resto da matéria (questões sobre normalização, )

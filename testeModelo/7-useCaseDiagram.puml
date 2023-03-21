@@ -1,0 +1,55 @@
+@startuml "Use Case Diagram"
+actor "Aluno" as A
+actor "Dono do Livro" as DL
+DL <|-- A
+
+rectangle "Empréstimo Livros" as EL {
+    usecase "Recebimento Penalidade" as ERP
+    usecase "Consulta Dashboard Empréstimos" as ECDE
+    usecase "Avaliar Empréstimo" as EAE
+    usecase "Registo Livro" as ERL
+
+    usecase "Registo Utilizador" as ERU
+    usecase "Pesquisa Livros" as ERPL
+    usecase "Por título" as ERPL.T
+    usecase "Por editora" as ERPL.E
+    usecase "Por autor(es)" as ERPL.A
+    usecase "Validação Cedência" as EVC
+    usecase "Alerta Devolução" as EAD
+    usecase "Validação Devolução" as EVD
+    usecase "Pagamento Penalidade" as EPP
+
+    ERPL.T .> ERPL : <<extends>
+    ERPL.A .> ERPL : <<extends>
+    ERPL.E ..> ERPL : <<extends>
+
+    ERPL.T -[hidden]- ERPL.A
+    ERPL.A -[hidden]- ERPL.E
+
+
+    ERP -[hidden]- ECDE
+    ECDE -[hidden]- EAE
+    EAE -[hidden]- ERL
+    ERL -[hidden]- ERU
+    ERU -[hidden]- ERPL
+    ERPL -[hidden]- EVC
+    EVC -[hidden]- EAD
+    EAD -[hidden]- EVD
+    EVD -[hidden]- EPP
+}
+
+DL -[hidden] EL
+A -[hidden] EL
+
+ERU- A
+DL - ERL
+ERPL - A
+EVC - A
+EAD - A
+EVD - A
+DL - EAE
+EPP - A
+DL - ERP
+DL - ECDE
+
+@enduml

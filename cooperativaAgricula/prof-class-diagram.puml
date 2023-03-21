@@ -1,0 +1,57 @@
+@startuml
+class Produtor {
+    id: int
+    dataAdmissao: Date
+    nome: String
+    morada: String
+    nif: int
+    telefone: int
+    email: String
+}
+
+class Propriedade {
+    id: int
+    nome: String
+    localizacao: String
+    freguesia: String
+    area: double
+}
+
+class Fruta {
+    id: int
+    nome: String
+    dataInicio: Date
+    dataFim: Date
+}
+
+class Plantacao {
+    idFruta: int
+    idPropriedade: int
+    data: Date
+    area: double
+    qtdArvores: int
+}
+
+class Dimensao {
+    id: int
+    nome: String
+}
+
+class Entrega {
+    id: int
+    dataEntrega: Date
+}
+
+class FrutaEntrega {
+    idEntrega: int
+    idFruta: int
+    idDimensao: int
+    peso: double
+}
+
+class TabelaPrecos {
+    idFruta: int
+    idDimensao: int
+    preco: double
+}
+@enduml

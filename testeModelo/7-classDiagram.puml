@@ -1,0 +1,94 @@
+@startuml "Class Diagram"
+enum EstadoConta {
+    ATIVA
+    POR_ATIVAR
+    BLOQUEADA
+}
+
+class Estudante {
+    PK numAluno: int
+    PK FK idEscola: int
+    nomeEmail: String
+    nome: String
+    password: String
+    estadoConta: EstadoConta
+}
+
+class Escola {
+    PK id: int
+    nome: String
+    dominioEmail: String
+}
+
+class Livro {
+    PK id: int
+    titulo: String
+    FK idEditora: int
+}
+
+enum EstadoExemplar {
+    DISPONIVEL
+    REMOVIDO
+}
+
+class Exemplar {
+    PK id: int
+    dataRegisto: Date
+    estado: EstadoExemplar
+    FK idConservacao: int
+    FK idLivro: int
+    FK idDonoLivro: int
+}
+
+class Autor {
+    PK id: int
+    nome: String
+}
+
+class Editora {
+    PK id: int
+    nome: String
+}
+
+class ConservacaoExemplar {
+    PK id: int
+    estado: String
+    penalidade: double
+}
+
+class Emprestimo {
+    PK id: int
+    dataSolicitacao: Date
+    dataEmprestimo: Date
+    dataDevolucao: Date
+    validacao: bit[2]
+    FK idExemplar: int
+    FK idSolicitante: int
+}
+
+class Avaliacao {
+    PK FK idEmprestimo: int
+    FK idConservacao: int   
+}
+
+class PagamentoPenalidade {
+    PK FK idAvaliacao: int
+    data: Date
+    referencia: String
+    valor: double
+}
+
+EstadoConta .> Estudante : <<enum>>
+Estudante "*" - "1" Escola : estuda
+Estudante "*" -- "*" Exemplar : regista
+Exemplar "*" -- "1" Livro : exemplar
+EstadoExemplar .> Exemplar : <<enum>>
+Exemplar "*" -- "1" ConservacaoExemplar : conservacao
+Livro "*" -- "*" Autor : autor
+Livro "*" -- "1" Editora : publica
+Estudante "1" -- "*" Emprestimo : solicita
+Exemplar "1" - "*" Emprestimo : emprestado
+Emprestimo "1" -- "0..1" Avaliacao : avaliado
+ConservacaoExemplar "1" - "*" Avaliacao : estado
+Avaliacao "1" -- "0..1" PagamentoPenalidade : paga
+@enduml
